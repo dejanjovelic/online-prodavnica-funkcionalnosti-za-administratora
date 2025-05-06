@@ -35,6 +35,20 @@ function kreirajRedoveArtikala() {
         tr.appendChild(br);
         tr.appendChild(naziv);
         tr.appendChild(cena);
+        tr.addEventListener("click", function(){
+            prikazDetaljaArtikla(artikli[i]);
+        })
+
         table.appendChild(tr)
     }
+}
+function prikazDetaljaArtikla(artikl){
+    let p = document.createElement("p");
+    p.innerHTML = `Naziv: ${artikl.naziv} <br> Cena: ${artikl.cena} <br> Opis: ${artikl.opis}`
+
+    let detalji = document.querySelector("#artikli-detalji");
+    if(detalji.firstChild){
+        detalji.firstChild.remove();
+    }
+    detalji.appendChild(p);
 }
