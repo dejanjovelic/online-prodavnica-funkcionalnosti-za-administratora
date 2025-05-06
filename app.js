@@ -13,13 +13,14 @@ function inicijalizacijaArtikla() {
         new Artikl("TV", 650, "Samsung TV"),
         new Artikl("Miš", 20, "Genius miš")
     ]
-    kreirajRedoveArtikala()
+    kreirajRedoveArtikala();
+    dodajNoviArtikl();
 }
 document.addEventListener("DOMContentLoaded", inicijalizacijaArtikla());
 
 function kreirajRedoveArtikala() {
     let table = document.querySelector("#artikli-body");
-    table.innerHTML ="";
+    table.innerHTML = "";
 
     for (let i = 0; i < artikli.length; i++) {
         let tr = document.createElement("tr");
@@ -35,20 +36,37 @@ function kreirajRedoveArtikala() {
         tr.appendChild(br);
         tr.appendChild(naziv);
         tr.appendChild(cena);
-        tr.addEventListener("click", function(){
+        tr.addEventListener("click", function () {
             prikazDetaljaArtikla(artikli[i]);
-        })
+        });
 
-        table.appendChild(tr)
+        table.appendChild(tr);
     }
 }
-function prikazDetaljaArtikla(artikl){
+function prikazDetaljaArtikla(artikl) {
     let p = document.createElement("p");
-    p.innerHTML = `Naziv: ${artikl.naziv} <br> Cena: ${artikl.cena} <br> Opis: ${artikl.opis}`
+    p.innerHTML = `Naziv: ${artikl.naziv} <br> Cena: ${artikl.cena} <br> Opis: ${artikl.opis}`;
 
     let detalji = document.querySelector("#artikli-detalji");
-    if(detalji.firstChild){
+    if (detalji.firstChild) {
         detalji.firstChild.remove();
     }
     detalji.appendChild(p);
+}
+
+function dodajNoviArtikl() {
+    let submitBtn = document.querySelector("#submitBtn");
+
+    submitBtn.addEventListener("click", function () {
+        const form = document.querySelector("#form");
+        const formData = new FormData(form);
+
+        const naziv = formData.get("naziv");
+        const cena = formData.get("cena");
+        const opis = formData.get("opis");
+
+        const noviArtikl = new Artikl(naziv, cena, opis);
+        artikli.push(noviArtikl);
+        kreirajRedoveArtikala();
+    })
 }
