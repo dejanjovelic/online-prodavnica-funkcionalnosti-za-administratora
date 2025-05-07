@@ -8,20 +8,18 @@ class Artikl {
 let artikli = [];
 
 function inicijalizacijaArtikla() {
-    artikli = [
-        new Artikl("Monitor", 165, "Asus monitor"),
-        new Artikl("TV", 650, "Samsung TV"),
-        new Artikl("Miš", 20, "Genius miš")
-    ]
+
+    artikli = JSON.parse(localStorage.getItem("artikliBaza"))
     kreirajRedoveArtikala();
     dodajNoviArtikl();
+    
 }
 document.addEventListener("DOMContentLoaded", inicijalizacijaArtikla());
 
 function kreirajRedoveArtikala() {
     let table = document.querySelector("#artikli-body");
     table.innerHTML = "";
-
+if(artikli){
     for (let i = 0; i < artikli.length; i++) {
         let tr = document.createElement("tr");
 
@@ -42,6 +40,8 @@ function kreirajRedoveArtikala() {
 
         table.appendChild(tr);
     }
+}
+   
 }
 function prikazDetaljaArtikla(artikl) {
     let p = document.createElement("p");
@@ -66,7 +66,14 @@ function dodajNoviArtikl() {
         const opis = formData.get("opis");
 
         const noviArtikl = new Artikl(naziv, cena, opis);
-        artikli.push(noviArtikl);
+        if(artikli){
+            artikli.push(noviArtikl);
+        }else{
+            artikli = [];
+            artikli.push(noviArtikl);
+        }
+        let artikliJSON = JSON.stringify(artikli);
+        localStorage.setItem("artikliBaza", artikliJSON)
         kreirajRedoveArtikala();
     })
 }
